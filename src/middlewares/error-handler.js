@@ -3,7 +3,7 @@ function errorHandler(error, req, res, next) {
     return next(error);
   }
 
-  if (error.code === "ER_DUP_ENTRY") {
+  if (error.code === "23505") {
     return res.status(409).json({ error: "El registro ya existe" });
   }
 

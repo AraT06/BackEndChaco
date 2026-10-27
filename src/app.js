@@ -1,6 +1,7 @@
 const express = require("express");
 const usuariosRoutes = require("./routes/usuarios");
 const productosRoutes = require("./routes/productos");
+const hitosRoutes = require("./routes/hitos");
 const chatbotRoutes = require("./routes/chatbot");
 const errorHandler = require("./middlewares/error-handler");
 const requireJsonObject = require("./middlewares/require-json-object");
@@ -16,6 +17,7 @@ app.get("/api/health", (req, res) => {
 });
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/productos", productosRoutes);
+app.use("/api/hitos", hitosRoutes);
 app.use("/api/chatbot", chatbotRoutes);
 app.use("/ollama-prompt", chatbotRoutes);
 app.use((req, res) => {

@@ -85,6 +85,38 @@ test("product creation rejects negative prices", async () => {
   assert.equal(response.status, 400);
 });
 
+test("milestone creation validates all required fields", async () => {
+  const response = await fetch(`${baseUrl}/api/hitos`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({}),
+  });
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "codigo_linea_tiempo es obligatorio",
+  });
+});
+
+test("milestone updates require at least one valid field", async () => {
+  const response = await fetch(`${baseUrl}/api/hitos/junio-1932`, {
+    method: "PATCH",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({}),
+  });
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "Debe enviar al menos un campo para actualizar",
+  });
+});
+
+test("milestone routes reject invalid identifiers", async () => {
+  const response = await fetch(`${baseUrl}/api/hitos/CODIGO_INVALIDO`);
+  assert.equal(response.status, 400);
+  assert.deepEqual(await response.json(), {
+    error: "El identificador del hito no es válido",
+  });
+});
+
 test("chatbot requires a non-empty prompt", async () => {
   const response = await fetch(`${baseUrl}/api/chatbot`, {
     method: "POST",

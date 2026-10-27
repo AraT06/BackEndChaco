@@ -1,27 +1,30 @@
 # API backend
 
-API REST en Express para las tablas MySQL `usuarios` y `productos`.
+API REST en Express para las tablas PostgreSQL `usuarios` y `productos`.
 
 ## Configuración
 
-Requiere Node.js y una base MySQL. Crea la base y ejecuta
-[`database/schema.sql`](./database/schema.sql) dentro de ella antes de iniciar.
-Copia `.env.example` a `.env` en la raíz del proyecto y configura allí la
-conexión. El archivo `.env` real está excluido del control de versiones.
+Requiere Node.js y Docker. La configuración incluida levanta PostgreSQL y
+ejecuta [`database/schema.sql`](./database/schema.sql) automáticamente la
+primera vez que se crea el volumen. Copia `.env.example` a `.env` si todavía no
+existe y ajusta sus valores. El archivo `.env` real está excluido del control de
+versiones.
 
 | Variable | Predeterminado | Descripción |
 | --- | --- | --- |
-| `DB_HOST` | `127.0.0.1` | Host de MySQL |
-| `DB_PORT` | `3306` | Puerto de MySQL |
-| `DB_USER` | `root` | Usuario de MySQL |
-| `DB_PASSWORD` | vacío | Contraseña de MySQL |
+| `DB_HOST` | `127.0.0.1` | Host de PostgreSQL |
+| `DB_PORT` | `5432` | Puerto de PostgreSQL |
+| `DB_USER` | `postgres` | Usuario de PostgreSQL |
+| `DB_PASSWORD` | — | Contraseña de PostgreSQL |
 | `DB_NAME` | — | Nombre obligatorio de la base de datos |
 | `HOST` | `127.0.0.1` | Interfaz donde escucha la API |
 | `PORT` | `3000` | Puerto HTTP |
 
-Instala dependencias con `npm install` e inicia con `npm start` (o `npm run dev`
-durante el desarrollo). La aplicación carga `.env` desde la raíz del proyecto
-y comprueba la conexión MySQL antes de abrir el puerto.
+Instala dependencias con `npm install`, levanta la base con `docker compose up -d`
+e inicia la API con `npm start` (o `npm run dev` durante el desarrollo). La
+aplicación carga `.env` desde la raíz y comprueba la conexión PostgreSQL antes
+de abrir el puerto. Para detener la base usa `docker compose down`; agrega `-v`
+solo si también quieres eliminar todos los datos.
 
 ## Rutas
 
@@ -42,6 +45,11 @@ las contraseñas recibidas se guardan con hash bcrypt.
 | `POST` | `/api/productos` | Crea producto con `precio` obligatorio |
 | `PUT` | `/api/productos/:id` | Actualiza campos enviados del producto |
 | `DELETE` | `/api/productos/:id` | Elimina producto |
+| `GET` | `/api/hitos` | Lista los hitos en orden cronológico |
+| `GET` | `/api/hitos/:identifier` | Obtiene un hito por id o código |
+| `POST` | `/api/hitos` | Crea un hito |
+| `PATCH` | `/api/hitos/:identifier` | Actualiza los campos enviados de un hito |
+| `DELETE` | `/api/hitos/:identifier` | Elimina un hito |
 | `POST` | `/api/chatbot` | Consulta al asistente multimedia de la Guerra del Chaco: `{ "prompt": "..." }` |
 | `POST` | `/ollama-prompt` | Alias compatible con el endpoint anterior del chatbot |
 
