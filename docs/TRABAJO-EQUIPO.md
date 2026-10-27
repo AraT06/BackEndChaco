@@ -17,11 +17,16 @@ prepararan al final, cuando los cambios del equipo ya esten integrados.
 ## Instalacion local
 
 ```bash
-git clone git@github.com:rjimenezvelasco/BackEndChaco.git
+git clone git@github.com:AraT06/BackEndChaco.git
 cd BackEndChaco
 git switch feature/hitos-crud
 npm ci
 ```
+
+Mientras el Pull Request al repositorio original siga abierto, el equipo
+trabajara desde `AraT06/BackEndChaco`. Cada integrante necesita acceso de
+colaborador en ese fork para poder subir su rama. Cuando el Pull Request sea
+fusionado, el equipo podra volver a usar el repositorio original como fuente.
 
 Crear un archivo `.env` a partir de `.env.example`. Luego ejecutar:
 
